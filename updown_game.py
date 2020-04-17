@@ -1,17 +1,23 @@
 from random import *
 
-fr = open("updownScore.txt", 'r')   #점수 파일 불러오기
-lines = fr.readlines()
-
 nick = []   #닉네임을 담을 리스트 생성
 score = []   #기록을 담을 리스트 생성
 
-for i in lines :
-    nickScore = i.split(":")  #파일 한줄씩 받아와서 :기준으로 앞,뒤 나눠서 nickScore 리스트에 넣음
-    nick.append(nickScore[0])   #":'기준으로 앞은 닉네임 리스트에
-    score.append(nickScore[1].strip('\n'))   #뒤는 점수 리스트에 넣음
+try:   #파일 없는 오류 처리하기 위해 try, except문 씀
+    fr = open("updownScore.txt", 'r')   #점수 파일 불러오기
+    lines = fr.readlines()   #파일을 한 줄씩 읽음
+
+    for i in lines :
+        nickScore = i.split(":")  #파일 한줄씩 받아와서 :기준으로 앞,뒤 나눠서 nickScore 리스트에 넣음
+        nick.append(nickScore[0])   #":'기준으로 앞은 닉네임 리스트에
+        score.append(int(nickScore[1].strip('\n')))   #뒤는 점수 리스트에 넣음, strip함수로 뒤에 따라오는 개행문자 제거
+        
+    fr.close()   #연 파일 닫기
     
-fr.close()   #연 파일 닫기
+except FileNotFoundError:   #파일 없으면(예외처리)
+    newf = open("updownScore.txt", 'w')    #파일 생성(내용은 없음)
+    newf.close()
+
 
 while True :
     rightAnswer = randint(1, 100)   #범위가 1에서 100인 랜덤 정수값 생성
@@ -67,14 +73,14 @@ while True :
 
         else :
             for i in range(0, len(nick)) :
-                print(i+1, nick[i], score[i])
+                print(i+1, nick[i], score[i])   #순위, 닉네임, 점수 출력
                 
     elif menu == "3" :
         print("게임을 종료합니다.")
-        fw = open("updownScore.txt", 'w')
-        for i in range(0, len(nick)) :
-            fw.write("%s:%s" % (nick[i], score[i]))
-                
+        fw = open("updownScore.txt", 'w')   #점수 기록을 위해 파일 불러옴, 순위를 뒤에 붙이는 것이 아닌 덮어쓰는 것이기 때문에 옵션 a가 아닌 w를 씀
+        for i in range(0, len(nick)) :   #닉네임 갯수만큼 for문 실행
+            fw.write("%s:%s" % (nick[i], score[i]))   #닉네임:점수 형식으로 파일에 씀
+            fw.write("\n")   #개행문자 입력
         fw.close()   #연 파일 닫기
         break
     
