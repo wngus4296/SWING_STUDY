@@ -87,7 +87,7 @@ while True :
         print("게임을 종료합니다.")
         fw = open("updownScore.txt", 'w')   #점수 기록을 위해 파일 불러옴, 순위를 뒤에 붙이는 것이 아닌 덮어쓰는 것이기 때문에 옵션 a가 아닌 w를 씀
         for i in range(0, len(nick)) :   #닉네임 갯수만큼 for문 실행
-            fw.write("%s:%s" % (nick[i], score[i]))   #닉네임:점수 형식으로 파일에 씀
+            fw.write("%s:%d" % (nick[i], score[i]))   #닉네임:점수 형식으로 파일에 씀
             fw.write("\n")   #개행문자 입력
         fw.close()   #연 파일 닫기
         break
