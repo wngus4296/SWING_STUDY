@@ -1,1 +1,0 @@
-# SWING_STUDY
